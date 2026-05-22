@@ -1,0 +1,24 @@
+```text
+# OpenFOAM specific ignores
+# Ignore time directories (except 0 directory)
+[1-9]*
+0.*
+-0.*
+
+# Ignore OpenFOAM mesh and post-processing data
+constant/polyMesh/
+postProcessing/
+processor*/
+
+# Ignore Paraview/VTK files
+*.foam
+*.vtk
+VTK/
+
+# Ignore Python caches
+__pycache__/
+*.pyc
+
+# Ignore log files
+*.log
+log.*
