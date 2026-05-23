@@ -26,8 +26,6 @@ This work is a streamlined replication of the experimental and computational stu
 │   ├── controlDict              # Solver control and forceCoeffs function objects
 │   ├── fvSchemes                # Discretization schemes
 │   └── fvSolution               # Linear solver settings
-├── scripts/
-│   └── analyze_aerodynamics.py  # Python post-processing and plotting script
 ├── docs/
 │   └── Final_Report.pdf         # Detailed engineering report and methodology
 └── README.md
