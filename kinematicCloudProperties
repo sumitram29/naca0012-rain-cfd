@@ -1,0 +1,75 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2306                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      kinematicCloudProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solution
+{
+    active          true;
+    coupled         false; // Enforces one-way coupling for numerical stability
+    transient       yes;
+    cellValueSourceCorrection off;
+    maxCo           0.3;
+}
+
+constantProperties
+{
+    rho0            998;   // Density of water (kg/m^3)
+    T0              300;   // Free stream temperature (K)
+    Cp0             4182;  // Specific heat of water (J/kgK)
+}
+
+subModels
+{
+    particleForces
+    {
+        sphereDrag;
+        gravity         (0 -9.81 0);
+    }
+
+    injectionModels
+    {
+        model1
+        {
+            type            patchInjection;
+            patchName       inlet;
+            U0              (10 0 0); // Matches free-stream air velocity
+            parcelBasisType mass;
+            
+            // Severe Rain Condition: LWC = 75.491 g/m^3 -> 0.075491 kg/m^3
+            massTotal       0.075491; 
+            
+            sizeDistribution
+            {
+                type        fixedValue;
+                fixedValueDistribution
+                {
+                    // Fixed droplet diameter of 1.2 mm
+                    value   0.0012; 
+                }
+            }
+        }
+    }
+
+    dispersionModel none;
+    patchInteractionModel standardWallInteraction;
+
+    standardWallInteractionCoeffs
+    {
+        type            rebound;
+        e               0.2;
+        mu              0.2;
+    }
+}
+// ************************************************************************* //
